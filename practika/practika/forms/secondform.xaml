@@ -1,0 +1,48 @@
+﻿<Window x:Class="practika.forms.secondform"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:practika.forms"
+        mc:Ignorable="d"
+        Title="secondform" Height="500" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="220"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.RowSpan="2">
+            <ListBox Height="415" x:Name="lbForDB" Margin="10" BorderBrush="Black" SelectionChanged="listBox_SelectionChanged" >
+            </ListBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left">
+            <Label Content="NAME:"  Margin="10"/>
+            <Label Content="AFTOR:" Margin="10"/>
+            <Label Content="Data:" Margin="10"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left" Margin="80 0 0 0">
+            <Label  Margin="10"  x:Name="namebooks"/>
+            <Label Margin="10" x:Name="aftor"/>
+            <Label Margin="10" x:Name="dsate"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column=" 1" Width="150"  HorizontalAlignment="Right">
+            <Image />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Content="Description:"/>
+            <TextBox Height="180" x:Name="tbDecs"/>
+        </StackPanel>
+        <Button Height="30" 
+                Width="200"
+                VerticalAlignment="Bottom"
+                Grid.Row="1"
+                Margin="5"
+                Content="Выход"
+                FontSize="20"
+                Click="clickexit"/>
+    </Grid>
+</Window>
