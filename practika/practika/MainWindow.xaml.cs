@@ -31,7 +31,10 @@ namespace practika
             string username = tblogin.Text;
             string password = pbpassword.Password;
             int id = 0;
-
+            if (tblogin.Text == null || pbpassword.Password == null)
+            {
+                MessageBox.Show("Не все поля заполнены", "ОШИБКА");
+            }
             // Создаем подключение к базе данных
             using (SqlConnection connection = new SqlConnection(@"Data Source=DESKTOP-TBDN17P;Initial Catalog=bibleoDB;Integrated Security=True"))
             {

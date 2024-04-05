@@ -18,3 +18,5 @@ C:\Users\kirill\source\repos\practika\practika\obj\Debug\practika.csproj.Generat
 C:\Users\kirill\source\repos\practika\practika\obj\Debug\practika.csproj.CoreCompileInputs.cache
 C:\Users\kirill\source\repos\practika\practika\obj\Debug\practika.exe
 C:\Users\kirill\source\repos\practika\practika\obj\Debug\practika.pdb
+C:\Users\kirill\source\repos\practika\practika\obj\Debug\style\stylebut.baml
+C:\Users\kirill\source\repos\practika\practika\obj\Debug\App.baml

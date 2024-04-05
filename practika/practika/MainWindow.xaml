@@ -5,22 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:practika"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="500">
-    <Grid>
+                ResizeMode="NoResize" WindowState="Normal"
+        WindowStyle="ToolWindow"
+        Title="Авторизация" Height="450" Width="500">
+    <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="180"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Label HorizontalAlignment="Center" FontSize="24" >Добро пожаловать</Label>
-            <Label HorizontalAlignment="Center" FontSize="16" >Авторизуйтесь</Label>
+            <Label HorizontalAlignment="Center" FontSize="28" >Добро пожаловать</Label>
+            <Label HorizontalAlignment="Center" FontSize="20" >Авторизуйтесь</Label>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <Label HorizontalAlignment="Left" Margin="130 0 0 0"  FontSize="16" >Логин:</Label>
-            <TextBox Width="250" Height="40" BorderBrush="Black" x:Name="tblogin" />
+            <TextBox Width="250"
+                     Height="40"
+                     FontSize="20"
+                     BorderBrush="Black" 
+                     x:Name="tblogin" />
             <Label HorizontalAlignment="Left" Margin="130 0 0 0"  FontSize="16" >Пароль:</Label>
-            <PasswordBox Width="250" Height="40" BorderBrush="Black" x:Name="pbpassword" />
+            <PasswordBox Width="250" Height="40"
+                         FontSize="20"
+                         BorderBrush="Black" x:Name="pbpassword" />
         </StackPanel>
         <StackPanel Grid.Row="2">
             <Button Height="40" 
@@ -28,6 +36,8 @@
                     FontSize="24"
                     Width="250" 
                     x:Name="but_Adm"
+                    FontWeight="Bold"
+                    Style="{StaticResource Buttonstyle}" 
                     Click="enter_click"/>
         </StackPanel>
     </Grid>

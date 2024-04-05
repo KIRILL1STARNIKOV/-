@@ -43,6 +43,11 @@ namespace practika.forms
         private string connectionString = "Data Source=DESKTOP-TBDN17P;Initial Catalog=bibleoDB;Integrated Security=True";
         private void AddNewRows(object sender, RoutedEventArgs e)
         {
+            if (tbname.Text == "" || tbauthor.Text == "" || tbgenre.Text == "" || tbyears.Text == "" || tbdecs.Text == "")
+            {
+                MessageBox.Show("Одно или несколько полей не заполнены! Все поля должны содержать значения.", "Ошибка");
+            }
+            else { 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
@@ -56,9 +61,12 @@ namespace practika.forms
                 command.Parameters.AddWithValue("@description", tbdecs.Text);
                 command.ExecuteNonQuery();
                 addtable();
-
-
-
+                tbname.Text = "";
+                tbauthor.Text = "";
+                tbgenre.Text = "";
+                tbyears.Text = "";
+                tbdecs.Text = "";
+            }
             }
         }
         public int userid = 0;
@@ -68,9 +76,12 @@ namespace practika.forms
         {
 
             // Проверяем роль пользователя перед выполнением операции удаления
+            if (dgbooks.SelectedItem == null) // Проверяю, выбрана ли какая-то строка в DataGrid
+            {
+                MessageBox.Show("Выберите строку.", "Ошибка");
+            }
 
-
-            int selectedId = GetSelectedId();
+                int selectedId = GetSelectedId();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -89,11 +100,54 @@ namespace practika.forms
 
 
         }
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                string searchText = tbsearch.Text;
+                SearchAndMoveToTop(searchText);
+            }
+        }
+        private void SearchAndMoveToTop(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText) || dgbooks.Items.Count == 0)
+                return;
+
+            dgbooks.SelectedItems.Clear(); 
+
+            bool found = false; 
+
+            foreach (var item in dgbooks.Items)
+            {
+                if (item is DataRowView row)
+                {
+                    foreach (var cellValue in row.Row.ItemArray)
+                    {
+                        if (cellValue.ToString().IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            dgbooks.SelectedItems.Add(row); 
+                            found = true; 
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // АХТУНГ АЧИБКА
+            if (!found)
+            {
+                MessageBoxResult result = MessageBox.Show("Данные не найдены.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (result == MessageBoxResult.OK)
+                {
+                    tbsearch.Text = ""; 
+                }
+            }
+        }
         private int GetSelectedId()
         {
             if (dgbooks.SelectedItem != null) // Проверяю, выбрана ли какая-то строка в DataGrid
             {
-                DataRowView row = (DataRowView)dgbooks.SelectedItem; // Получаем выбранную строку
+                DataRowView row = (DataRowView)dgbooks.SelectedItem;
                 int selectedId = (int)row["idbooks"];
                 return selectedId;
             }
@@ -101,31 +155,51 @@ namespace practika.forms
         }
         private void UpdateSelectedRow(object sender, RoutedEventArgs e)
         {
-            int selectedId = GetSelectedId(); // Получаем уникальный идентификатор выбранной строки
-            if (selectedId != -1) // Проверяем, что строка выбрана
+            if (dgbooks.SelectedItem == null) // Проверяю, выбрана ли какая-то строка в DataGrid
             {
-                // Получаем новые значения из текстовых полей
-                string newTitle = tbname.Text;
-                string newAuthor = tbauthor.Text;
-                string newGenre = tbgenre.Text;
-                string newYear = tbyears.Text;
-                string newDescription = tbdecs.Text;
+                MessageBox.Show("Выберите строку.", "Ошибка");
+            }
+            if (tbname.Text == ""||  tbauthor.Text == "" || tbgenre.Text == "" || tbyears.Text == "" || tbdecs.Text == "")
+            {
+                MessageBox.Show("Одно или несколько полей не заполнены! Все поля должны содержать значения.", "Ошибка");
+            }
+            // Проверяем, что в DataGrid выбрана строка
+            if (dgbooks.SelectedItem != null)
+            {
+                // Получаем уникальный идентификатор выбранной строки
+                int selectedId = GetSelectedId();
 
-                // Подключаемся к базе данных и выполняем запрос на обновление строки
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                // Проверяем, что строка действительно выбрана
+                if (selectedId != -1)
                 {
-                    connection.Open();
-                    string sql = "UPDATE tablebooks SET title = @Title, author = @Author, genre = @Genre, datacreate = @Year, description = @Description WHERE idbooks = @Id";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    // Получаем новые значения из текстовых полей
+                    string newTitle = tbname.Text;
+                    string newAuthor = tbauthor.Text;
+                    string newGenre = tbgenre.Text;
+                    string newYear = tbyears.Text;
+                    string newDescription = tbdecs.Text;
+
+                    // Подключаемся к базе данных и выполняем запрос на обновление строки
+                    using (SqlConnection connection = new SqlConnection(connectionString))
                     {
-                        command.Parameters.AddWithValue("@Id", selectedId);
-                        command.Parameters.AddWithValue("@Title", newTitle);
-                        command.Parameters.AddWithValue("@Author", newAuthor);
-                        command.Parameters.AddWithValue("@Genre", newGenre);
-                        command.Parameters.AddWithValue("@Year", newYear);
-                        command.Parameters.AddWithValue("@Description", newDescription);
-                        command.ExecuteNonQuery();
-                        addtable();
+                        connection.Open();
+                        string sql = "UPDATE tablebooks SET title = @Title, author = @Author, genre = @Genre, datacreate = @Year, description = @Description WHERE idbooks = @Id";
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@Id", selectedId);
+                            command.Parameters.AddWithValue("@Title", newTitle);
+                            command.Parameters.AddWithValue("@Author", newAuthor);
+                            command.Parameters.AddWithValue("@Genre", newGenre);
+                            command.Parameters.AddWithValue("@Year", newYear);
+                            command.Parameters.AddWithValue("@Description", newDescription);
+                            command.ExecuteNonQuery();
+                            addtable();
+                            tbname.Text = "";
+                            tbauthor.Text = "";
+                            tbgenre.Text = "";
+                            tbyears.Text = "";
+                            tbdecs.Text = "";
+                        }
                     }
                 }
             }
@@ -140,6 +214,22 @@ namespace practika.forms
             MainWindow mw = new MainWindow();
             mw.Show();
             this.Close();
+        }
+
+        private void dgbooks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgbooks.SelectedItem != null)
+            {
+                DataRowView selectedRow = dgbooks.SelectedItem as DataRowView;
+                if (selectedRow != null)
+                {
+                    tbname.Text = selectedRow["title"].ToString();
+                    tbauthor.Text = selectedRow["author"].ToString();
+                    tbgenre.Text = selectedRow["genre"].ToString();
+                    tbyears.Text = selectedRow["datacreate"].ToString();
+                    tbdecs.Text = selectedRow["description"].ToString();
+                }
+            }
         }
     }
 }

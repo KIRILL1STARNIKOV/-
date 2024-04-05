@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:practika.forms"
         mc:Ignorable="d"
-        Title="secondform" Height="500" Width="800">
-    <Grid>
+                ResizeMode="NoResize" WindowState="Normal"
+        WindowStyle="ToolWindow"
+        Title="Информатор" Height="500" Width="800">
+    <Grid Background="AliceBlue" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition/>
@@ -16,25 +18,27 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.RowSpan="2">
-            <ListBox Height="415" x:Name="lbForDB" Margin="10" BorderBrush="Black" SelectionChanged="listBox_SelectionChanged" >
+            <ListBox Height="415" FontSize="20" x:Name="lbForDB" Margin="10"
+                     BorderBrush="Black" 
+                     SelectionChanged="listBox_SelectionChanged" >
             </ListBox>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left">
-            <Label Content="NAME:"  Margin="10"/>
-            <Label Content="AFTOR:" Margin="10"/>
-            <Label Content="Data:" Margin="10"/>
+            <Label Content="Имя:" FontSize="20" Margin="10"/>
+            <Label Content="Автор:" FontSize="20" Margin="10"/>
+            <Label Content="Дата:" FontSize="20" Margin="10"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left" Margin="80 0 0 0">
-            <Label  Margin="10"  x:Name="namebooks"/>
-            <Label Margin="10" x:Name="aftor"/>
-            <Label Margin="10" x:Name="dsate"/>
+        <StackPanel Grid.Column="1" Grid.Row="0" Width="120" HorizontalAlignment="Left" Margin="80 0 0 0">
+            <Label  Margin="10" FontSize="20" x:Name="namebooks"/>
+            <Label Margin="10" FontSize="20" x:Name="aftor"/>
+            <Label Margin="10" Width="120" FontSize="20" x:Name="dsate"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column=" 1" Width="150"  HorizontalAlignment="Right">
             <Image />
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="Description:"/>
-            <TextBox Height="180" x:Name="tbDecs"/>
+            <Label Content="Описание:" FontSize="20"/>
+            <TextBox Height="180" FontSize="20" x:Name="tbDecs"/>
         </StackPanel>
         <Button Height="30" 
                 Width="200"
@@ -42,6 +46,7 @@
                 Grid.Row="1"
                 Margin="5"
                 Content="Выход"
+                Style="{StaticResource Buttonstyle}" 
                 FontSize="20"
                 Click="clickexit"/>
     </Grid>
